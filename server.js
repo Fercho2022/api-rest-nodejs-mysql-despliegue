@@ -1,6 +1,8 @@
 const express= require('express')
 const myconn = require ( 'express-myconnection')
 const mysql = require ('mysql')
+const cors = require('cors')
+require ('dotenv').config()
 
 const routes = require('./routes')
 
@@ -13,11 +15,11 @@ app.listen(PORT, ()=>{
 })
 
 const dbOption= {
-    host: 'localhost', 
-    port: 3306,
-    user: 'root', 
-    password: '',
-    database: 'library'
+    host: process.env.DB_HOST, 
+    port: process.env.DB_PORT,
+    user: process.env.DB_USER, 
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE
 
 
 }
@@ -25,6 +27,7 @@ const dbOption= {
 
 app.use(myconn(mysql, dbOption, 'single'))
 app.use(express.json())
+app.use(cors())
 
 
 //routes-------------------------------
@@ -33,3 +36,9 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api', routes)
+
+app.use((req, res, next)=>{
+    res.status(404).json({
+        message: 'ebdpoint not found'
+    })
+})
