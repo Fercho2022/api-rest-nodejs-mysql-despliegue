@@ -15,11 +15,11 @@ app.listen(PORT, ()=>{
 })
 
 const dbOption= {
-    host: DB_HOST, 
-    port: DB_PORT,
-    user: DB_USER, 
-    password: DB_PASSWORD,
-    database: DB_DATABASE
+    host: process.env.DB_HOST || 'localhost', 
+    port: process.env.DB_PORT || 3306,
+    user: process.env.DB_USER || 'root', 
+    password: process.env.DB_PASSWORD || '',
+    database: process.env.DB_DATABASE || 'library'
 
 
 }
